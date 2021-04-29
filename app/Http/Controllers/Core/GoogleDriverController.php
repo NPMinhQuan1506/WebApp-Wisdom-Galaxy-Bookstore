@@ -74,6 +74,12 @@ class GoogleDriverController extends Controller
         if (!$file) {
             return 'File Không Tồn Tại!';
         }
+        $service = Storage::cloud()->getAdapter()->getService();
+        $permission = new \Google_Service_Drive_Permission();
+        $permission->setRole('reader');
+        $permission->setType('anyone');
+        $permission->setAllowFileDiscovery(false);
+        $permissions = $service->permissions->create($file['basename'], $permission);
         return $file['basename'];
     }
 
