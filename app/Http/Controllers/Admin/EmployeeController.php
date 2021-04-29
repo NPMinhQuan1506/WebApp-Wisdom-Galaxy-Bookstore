@@ -12,6 +12,7 @@ use App\Http\Controllers\Core\GoogleDriverController;
 use App\Models\Department;
 use App\Models\Gender;
 use App\Models\Image;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class EmployeeController extends Controller
@@ -26,13 +27,16 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        $employees = Employee::join('emp_account','employee.account_id','emp_account.id')
-        ->join('department','employee.department_id','department.id')
-        ->join('gender','employee.gender_id','gender.id')
-        ->join('image','employee.image_id','image.id')
-        ->where('is_enable',1)
-        ->orderBy('id','DESC')
-        ->get();
+        $employees = DB::select('select e.id, e.name, e.date_of_birth, e.email, e.phone, e.address, e.salary, e.hire_date,
+        a.username, d.name as department, g.gender,  i.path
+        from `employee` as e
+        inner join `emp_account` as a on `e`.`account_id` = `a`.`id`
+        inner join `department` as d on `e`.`department_id` = `d`.`id`
+        inner join `gender` as g on `e`.`gender_id` = `g`.`id`
+        inner join `image` as i on `e`.`image_id` = `i`.`id`
+        where `e`.`is_enable` = 1
+        order by `e`.`id` desc');
+
         return view('admin.employee_list',compact('employees'));
     }
 
