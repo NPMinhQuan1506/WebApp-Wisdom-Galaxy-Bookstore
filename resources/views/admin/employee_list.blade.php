@@ -22,32 +22,39 @@
                                     </th>
                                     <th>Tên Nhân Viên</th>
                                     <th>Ảnh</th>
-                                    <th>Ngày Sinh</th>
+                                    {{-- <th>Tuổi</th> --}}
                                     <th>Giới Tính</th>
                                     <th>Email</th>
-                                    <th>Số Điện Thoại</th>
-                                    <th>Tài Khoản</th>
+                                    <th style="width: 150px !important">SĐT</th>
+                                    {{-- <th>Tài Khoản</th> --}}
                                     <th>Chức Vụ</th>
-                                    <th>Lương</th>
-                                    <th>Ngày Ký Hợp Đồng</th>
+                                    {{-- <th>Lương</th> --}}
+                                    {{-- <th>Ngày Ký Hợp Đồng</th> --}}
                                     <th>Địa Chỉ</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($employees as $row)
                                 <tr>
-                                    <th>
+                                    <td>
                                         <label class="customcheckbox">
                                             <input type="checkbox" class="listCheckbox" />
                                             <span class="checkmark"></span>
                                         </label>
-                                    </th>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
+                                    </td>
+                                    <td>{{$row->name}}</td>
+                                    <td><img class="card-img-bottom" src="https://docs.google.com/uc?id={{$row->path}}"></td>
+                                    {{-- <td>{{$row->date_of_birth}}</td> --}}
+                                    <td>{{$row->gender}}</td>
+                                    <td>{{$row->email}}</td>
+                                    <td style="width: 150px !important">{{$row->phone}}</td>
+                                    {{-- <td>{{$row->username}}</td> --}}
+                                    <td>{{$row->department}}</td>
+                                    {{-- <td>{{$row->salary}}</td> --}}
+                                    {{-- <td>{{$row->hire_date}}</td> --}}
+                                    <td>{{$row->address}}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
