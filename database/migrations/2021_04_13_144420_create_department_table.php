@@ -16,6 +16,8 @@ class CreateDepartmentTable extends Migration
         Schema::create('department', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 200);
+            $table->integer('level');
+            $table->string('note', 16000)->nullable();
             $table->boolean('is_enable')->default(true);
             $table->timestamps();
         });

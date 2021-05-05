@@ -11,6 +11,6 @@ class CustomerType extends Model
     use HasFactory;
 
     public function customer(){
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Customer::class, 'customer_type_id', 'id');
     }
 }

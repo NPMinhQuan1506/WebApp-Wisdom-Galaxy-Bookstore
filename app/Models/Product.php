@@ -27,9 +27,9 @@ class Product extends Model
         return $this->hasOne(ProductDetail::class,'sku','sku');
     }
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->hasOne(Image::class, 'id', 'image_id');
     }
     public function supplier(){
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Supplier::class, 'id', 'supplier_id');
     }
 }

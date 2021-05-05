@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\EmpAccount;
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Core\GoogleDriverController;
+use App\Models\CusAccount;
+use App\Models\Customer;
+use App\Models\CustomerType;
 use App\Models\Department;
 use App\Models\Gender;
 use App\Models\Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-class EmployeeController extends Controller
+class CustomerController extends Controller
 {
 
 
@@ -27,17 +28,17 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        $employees = DB::select('select e.id, e.name, e.date_of_birth, e.email, e.phone, e.address, e.salary, e.hire_date,
-        a.username, d.name as department, g.gender,  i.path
-        from `employee` as e
-        inner join `emp_account` as a on `e`.`account_id` = `a`.`id`
-        inner join `department` as d on `e`.`department_id` = `d`.`id`
-        inner join `gender` as g on `e`.`gender_id` = `g`.`id`
-        inner join `image` as i on `e`.`image_id` = `i`.`id`
-        where `e`.`is_enable` = 1
-        order by `e`.`id` asc');
+        $customers = DB::select('select c.id, c.name, c.date_of_birth, c.email, c.phone, c.address,
+        a.username, ct.type as customer_type, g.gender,  i.path
+        from `customer` as c
+        inner join `cus_account` as a on `c`.`account_id` = `a`.`id`
+        inner join `customer_type` as ct on `c`.`customer_type_id` = `ct`.`id`
+        inner join `gender` as g on `c`.`gender_id` = `g`.`id`
+        inner join `image` as i on `c`.`image_id` = `i`.`id`
+        where `c`.`is_enable` = 1
+        order by `c`.`id` asc');
 
-        return view('admin.employee_list',compact('employees'));
+        return view('admin.customer_list',compact('customers'));
     }
 
     /**
@@ -48,9 +49,9 @@ class EmployeeController extends Controller
     public function create()
     {
         //
-        $departments = Department::all();
+        $customer_types = CustomerType::all();
     	$genders = Gender::all();
-        return view('admin.employee_add', compact('departments','genders'));
+        return view('admin.customer_add', compact('customer_types','genders'));
     }
 
     /**
@@ -65,49 +66,45 @@ class EmployeeController extends Controller
         $googleDriver = new GoogleDriverController();
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
-            $fileName = date('d-m-Y H:i:s')."_Employee_".$request->name."_".$file->getClientOriginalName();
+            $fileName = date('d-m-Y H:i:s')."_Customer_".$request->name."_".$file->getClientOriginalName();
             $fileName = preg_replace('/\-|\s|\:/', '_', $fileName);
             $extensionFile = $file->getClientOriginalExtension();
-            $googleDriver->uploadFileInFolder("Employee", $fileName, $file->getContent());
-            $path = $googleDriver->getFileId("Employee" ,$fileName);
+            $googleDriver->uploadFileInFolder("Customer", $fileName, $file->getContent());
+            $path = $googleDriver->getFileId("Customer" ,$fileName);
         }
         //
-        $account = new EmpAccount();
+        $account = new CusAccount();
         $account->username =  $request->account;
         $account->password =  bcrypt($request->password);
         $account->save();
         $account_id =$account->where('username', $request->account)->first()->id;
-        $emp_avatar = new Image();
+        $cus_avatar = new Image();
         if(isset($path)){
-            $emp_avatar->path = $path;
+            $cus_avatar->path = $path;
         }
         if(isset($extensionFile)){
-        $emp_avatar->extension = $extensionFile;
+        $cus_avatar->extension = $extensionFile;
         }
-        $emp_avatar->save();
+        $cus_avatar->save();
         if(isset($path)){
-        $image_id =$emp_avatar->where('path', $path)->first()->id;
+        $image_id =$cus_avatar->where('path', $path)->first()->id;
         }
-        $employee = new Employee();
-        $employee->name = $request->name;
+        $customer = new Customer();
+        $customer->name = $request->name;
         $originalDate = $request->birth;
         $date_of_birth = date("Y-m-d", strtotime($originalDate));
-        $employee->date_of_birth = $date_of_birth;
-        $employee->gender_id = $request->gender;
-        $employee->department_id = $request->department;
-        $employee->account_id = $account_id;
+        $customer->date_of_birth = $date_of_birth;
+        $customer->gender_id = $request->gender;
+        $customer->account_id = $account_id;
         if(isset($path)){
-            $employee->image_id = $image_id;
+            $customer->image_id = $image_id;
         }
-        $employee->email = $request->emp_email;
-        $employee->phone = $request->phone;
-        $employee->address = $request->address;
-        $employee->salary = $request->salary;
-        $originalDate = $request->hiredate;
-        $hiredate = date("Y-m-d", strtotime($originalDate));
-        $employee->hire_date = $hiredate;
-        $employee->save();
-        return Redirect::to('/admin/nhan-vien/danh-sach')->with("success","Thêm nhân viên thành công");
+        $customer->email = $request->cus_email;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+        $customer->customer_type_id = $request->customer_type;
+        $customer->save();
+        return Redirect::to('/admin/khach-hang/danh-sach')->with("success","Thêm khách hàng thành công");
     }
     /**
      * Display the specified resource.
@@ -129,13 +126,13 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         //
-        $employee = Employee::find($id);
-        $account = $employee->account;
-        $image = $employee->image;
-        $departments = Department::all();
+        $customer = Customer::find($id);
+        $account = $customer->account;
+        $image = $customer->image;
+        $customer_types = CustomerType::all();
     	$genders = Gender::all();
 
-        return view('admin.employee_edit', compact('employee','account','image','departments','genders'));
+        return view('admin.customer_edit', compact('customer','account','image','customer_types','genders'));
     }
 
     /**
@@ -151,16 +148,16 @@ class EmployeeController extends Controller
         $googleDriver = new GoogleDriverController();
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
-            $fileName = date('d-m-Y H:i:s')."_Employee_".$request->name."_".$file->getClientOriginalName();
+            $fileName = date('d-m-Y H:i:s')."Customer".$request->name."_".$file->getClientOriginalName();
             $fileName = preg_replace('/\-|\s|\:/', '_', $fileName);
             $extensionFile = $file->getClientOriginalExtension();
-            $googleDriver->uploadFileInFolder("Employee", $fileName, $file->getContent());
-            $path = $googleDriver->getFileId("Employee" ,$fileName);
+            $googleDriver->uploadFileInFolder("Customer", $fileName, $file->getContent());
+            $path = $googleDriver->getFileId("Customer" ,$fileName);
         }
         //
-        $employee = Employee::find($id);
-        $account = EmpAccount::find($employee->account_id);
-        $emp_avatar = Image::find($employee->image_id);
+        $customer = Customer::find($id);
+        $account = CusAccount::find($customer->account_id);
+        $cus_avatar = Image::find($customer->image_id);
 
         $account->username =  $request->account;
         if($request->has('isPassword')){
@@ -170,35 +167,31 @@ class EmployeeController extends Controller
         $account->save();
         $account_id =$account->where('username', $request->account)->first()->id;
         if(isset($path)){
-        $emp_avatar->path = $path;
+        $cus_avatar->path = $path;
         }
         if(isset($extensionFile)){
-        $emp_avatar->extension = $extensionFile;
+        $cus_avatar->extension = $extensionFile;
         }
-        $emp_avatar->save();
+        $cus_avatar->save();
         if(isset($image_id)){
-        $image_id =$emp_avatar->where('path', $path)->first()->id;
+        $image_id =$cus_avatar->where('path', $path)->first()->id;
         }
-        $employee->name = $request->name;
+        $customer->name = $request->name;
         $originalDate = $request->birth;
         $date_of_birth = date("Y-m-d", strtotime($originalDate));
-        $employee->date_of_birth = $date_of_birth;
-        $employee->gender_id = $request->gender;
-        $employee->department_id = $request->department;
-        $employee->account_id = $account_id;
+        $customer->date_of_birth = $date_of_birth;
+        $customer->gender_id = $request->gender;
+        $customer->customer_type_id = $request->customer_type;
+        $customer->account_id = $account_id;
         if(isset($image_id)){
-            $employee->image_id = $image_id;
+            $customer->image_id = $image_id;
         }
-        $employee->email = $request->emp_email;
-        $employee->phone = $request->phone;
-        $employee->address = $request->address;
-        $employee->salary = $request->salary;
-        $originalDate = $request->hiredate;
-        $hiredate = date("Y-m-d", strtotime($originalDate));
-        $employee->hire_date = $hiredate;
-        $employee->save();
+        $customer->email = $request->cus_email;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+        $customer->save();
 
-        return Redirect::to('/admin/nhan-vien/danh-sach')->with("success","Cập nhật nhân viên thành công");
+        return Redirect::to('/admin/khach-hang/danh-sach')->with("success","Cập nhật khách hàng thành công");
     }
 
     /**
@@ -210,16 +203,16 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
-        $employee = Employee::find($id);
-        $account = EmpAccount::find($employee->account_id);
-        $image = Image::find($employee->image_id);
-        $employee->is_enable = 0;
+        $customer = Customer::find($id);
+        $account = CusAccount::find($customer->account_id);
+        $image = Image::find($customer->image_id);
+        $customer->is_enable = 0;
         $account->is_enable = 0;
         $image->is_enable = 0;
-        $employee->save();
+        $customer->save();
         $account->save();
         $image->save();
-        return Redirect::to('/admin/nhan-vien/danh-sach')->with("success","Xóa nhân viên thành công");
+        return Redirect::to('/admin/khach-hang/danh-sach')->with("success","Xóa khách hàng thành công");
     }
     public function validateElement(Request $request)
     {
@@ -230,13 +223,10 @@ class EmployeeController extends Controller
                 'avatar' => 'image',
                 'birth' => 'required|date_format:m/d/Y',
                 'gender' => 'required',
-                'emp_email' => 'required|regex:/^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/|unique:employee,email',
-                'phone' => 'bail|required|regex:/\(0[0-9]{2}\)(\s?[0-9]{3})(\-[0-9]{4})/|unique:employee,phone', //not_regex:/[_]/
-                'account' => 'bail|required|regex:/^[A-Za-z0-9]+(?:[ _@-][A-Za-z0-9]+)*$/|unique:emp_account,username',
+                'cus_email' => 'required|regex:/^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/|unique:customer,email',
+                'phone' => 'bail|required|regex:/\(0[0-9]{2}\)(\s?[0-9]{3})(\-[0-9]{4})/|unique:customer,phone', //not_regex:/[_]/
+                'account' => 'bail|required|regex:/^[A-Za-z0-9]+(?:[ _@-][A-Za-z0-9]+)*$/|unique:cus_account,username',
                 'password' => 'bail|required|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,}$/',
-                'department' => 'required',
-                'salary' => 'required|alpha_num',
-                'hiredate' => 'required|date_format:m/d/Y',
             ],
             [
                 'avatar.image' => 'Tệp tải lên phải là có đuôi: jpeg, png, bmp, gif, svg.',
@@ -246,9 +236,9 @@ class EmployeeController extends Controller
                 'birth.required' => 'Không được để trống ngày sinh',
                 'birth.date_format' => 'Ngày sinh phải có dạng m/d/Y',
                 'gender.required' => 'Không được để trống giới tính',
-                'emp_email.required' => 'Không được để trống email',
-                'emp_email.regex' => 'Không đúng định dạng email',
-                'emp_email.unique' => 'Email đã tồn tại',
+                'cus_email.required' => 'Không được để trống email',
+                'cus_email.regex' => 'Không đúng định dạng email',
+                'cus_email.unique' => 'Email đã tồn tại',
                 'phone.required' => 'Không được để trống điện thoại',
                 'phone.regex' => 'Điện thoại phải có 10 chữ số bắt đầu bằng số 0',
                 'phone.unique' => 'Số điện thoại đã tồn tại',
@@ -257,11 +247,6 @@ class EmployeeController extends Controller
                 'account.unique' => 'Tài khoản đã tồn tại',
                 'password.required' => 'Không được để trống password',
                 'password.regex' => 'Password chỉ có chữ hoa hoặc chữ thường và số. Ít nhất 8 ký tự',
-                'department.required' => 'Không được để trống chức vụ',
-                'salary.required' => 'Không được để trống lương',
-                'salary.alpha_num' => 'Lương có dạng số',
-                'hiredate.required' => 'Không được để trống ngày ký hợp đồng',
-                'hiredate.date_format' => 'Ngày ký hợp đồng phải có dạng m/d/Y',
             ]
         );
     }

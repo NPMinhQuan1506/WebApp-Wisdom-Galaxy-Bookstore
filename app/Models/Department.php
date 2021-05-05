@@ -11,6 +11,6 @@ class Department extends Model
     use HasFactory;
 
     public function employee(){
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Employee::class, 'department_id', 'id');
     }
 }

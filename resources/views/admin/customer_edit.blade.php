@@ -1,4 +1,4 @@
-@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Nhân Viên', 'tittleCRUD' => 'Sửa'])
+@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Khách Hàng', 'tittleCRUD' => 'Sửa'])
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('public/backend/assets/libs/select2/dist/css/select2.min.css')}}">
 <link rel="stylesheet" type="text/css"
@@ -9,20 +9,20 @@
 @section('content_admin')
 <div class="container-fluid">
     <div class="row" style="margin-left: 15%;margin-right: 15%">
-        <form id="frmEmployee" name="frmEmployee" enctype="multipart/form-data" action="../update/{{ $employee->id }}"
+        <form id="frmCustomer" name="frmCustomer" enctype="multipart/form-data" action="../update/{{ $customer->id }}"
             method="POST">
             {{-- @method('PATCH') --}}
             @csrf
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Thông Tin Nhân Viên</h4>
+                    <h4 class="card-title">Thông Tin Khách Hàng</h4>
                     <div class="row mb-3">
                         <div class="form-group col-lg-7">
                             <label class="">Ảnh Đại Diện</label>
                             <div class="">
                                 <div class="custom-file">
                                     <img id="img" src="https://docs.google.com/uc?id={{$image->path}}"
-                                        alt="Ảnh của nhân viên" style="width: 100px; height: 100px;">
+                                        alt="Ảnh của khách hàng" style="width: 100px; height: 100px;">
                                     <br> <input type="file" class="custom-file-input is-valid" name="avatar"
                                         id="validatedCustomFile" accept=".jpg, .jpeg, .png" required
                                         onchange="readURL(this);" value="{{$image->path}}">
@@ -33,9 +33,9 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-5">
-                            <label for="name" class="text-end control-label col-form-label">Tên Nhân Viên</label>
+                            <label for="name" class="text-end control-label col-form-label">Tên Khách Hàng</label>
                             <input type="text" autocomplete="off" class="form-control is-valid" id="name" name="name"
-                                placeholder="Nhập Tên Nhân Viên" value="{{$employee->name}}">
+                                placeholder="Nhập Tên Khách Hàng" value="{{$customer->name}}">
                             <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control mydatepicker is-valid" id="birth"
                                     autocomplete="off" name="birth" placeholder="mm/dd/yyyy"
-                                    value="{{$employee->date_of_birth}}">
+                                    value="{{$customer->date_of_birth}}">
                                 <div class="input-group-append">
                                     <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -59,7 +59,7 @@
                                     style="width: 100%; height:36px;">
                                     <option value="0">Chọn Giới Tính</option>
                                     @foreach($genders as $gender)
-                                    <option value='{{$gender->id}}' @if ($employee->gender_id == $gender->id)
+                                    <option value='{{$gender->id}}' @if ($customer->gender_id == $gender->id)
                                         selected="selected"
                                         @endif
                                         >{{$gender->gender}}</option>
@@ -75,8 +75,8 @@
                                     abc@gmail.com</small></label>
                             <div class="">
                                 <input type="text" class="form-control email-inputmask is-valid" id="email"
-                                    name="emp_email" readonly onfocus="this.removeAttribute('readonly');"
-                                    placeholder="Nhập Email" value="{{$employee->email}}">
+                                    name="cus_email" readonly onfocus="this.removeAttribute('readonly');"
+                                    placeholder="Nhập Email" value="{{$customer->email}}">
                                 <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                     class="text-muted">(099) 999-9999</small></label>
                             <div class="">
                                 <input type="text" class="form-control phone-inputmask is-valid" id="phone" name="phone"
-                                    placeholder="Nhập Số Điện Thoại" value="{{$employee->phone}}">
+                                    placeholder="Nhập Số Điện Thoại" value="{{$customer->phone}}">
                                 <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                     class="text-muted"> Ít nhất 8 ký tự (1 số, 1 chữ hoa và thường)</small></label>
                             <div class="">
                                 <input type="password" class="form-control" autocomplete="off" name="password"
-                                    id="passwd" placeholder="Nhập Mật Khẩu Reset" value="Admin123456" readonly>
+                                    id="passwd" placeholder="Nhập Mật Khẩu Reset" value="User123456" readonly>
                                 <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
                             </div>
                             {{-- pretty checkbox --}}
@@ -118,59 +118,30 @@
                                     </label>
                                 </div>
                             </div>
-                            <p> <small class="text-muted"> Mật Khẩu Mặc Định "Admin123456"</small></p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-lg-7">
-                            <label class="">Chức Vụ</label>
-                            <div class="">
-                                <select class="select2 form-select shadow-none" name="department" id="department"
-                                    style="width: 100%; height:36px;">
-                                    <option value="0">Chọn Chức Vụ</option>
-                                    @foreach($departments as $department)
-                                    <option value='{{$department->id}}' @if ($employee->department_id ==
-                                        $department->id)
-                                        selected="selected"
-                                        @endif
-                                        >{{$department->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-5">
-                            <label for="salary" class="text-end control-label col-form-label">Lương</label>
-                            <div class="">
-                                <div class="input-group">
-                                    <input type="number" min="100000" step="500000" id="salary" name="salary"
-                                        class="form-control is-valid" value="100000" placeholder="100000"
-                                        aria-label="Recipient 's username" id="salary" aria-describedby="basic-addon2"
-                                        value="{{$employee->salary}}">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">VNĐ</span>
-                                    </div>
-                                    <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
-                                </div>
-                            </div>
+                            <p> <small class="text-muted"> Mật Khẩu Mặc Định "User123456"</small></p>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="form-group col-lg-7">
                             <label for="address" class="text-end control-label col-form-label">Địa Chỉ</label>
                             <input type="text" autocomplete="off" class="form-control is-valid" id="address"
-                                name="address" placeholder="Nhập Địa Chỉ" value="{{$employee->address}}">
+                                name="address" placeholder="Nhập Địa Chỉ" value="{{$customer->address}}">
                             <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
                         </div>
                         <div class="form-group col-lg-5">
-                            <label class="text-end control-label col-form-label">Ngày Ký Hợp Đồng</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control is-valid" autocomplete="off"
-                                    id="datepicker-autoclose" name="hiredate" placeholder="mm/dd/yyyy" min='01/01/1920'
-                                    max='12/31/2021' value="{{$employee->hire_date}}">
-                                <div class="input-group-append">
-                                    <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
-                                </div>
-                                <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div>
+                            <label class="">Loại Khách Hàng</label>
+                            <div class="">
+                                <select class="select2 form-select shadow-none" name="customer_type" id="customer_type"
+                                    style="width: 100%; height:36px;">
+                                    <option value="0">Chọn Loại Khách Hàng</option>
+                                    @foreach($customer_types as $customer_type)
+                                    <option value='{{$customer_type->id}}' @if ($customer->customer_type_id ==
+                                        $customer_type->id)
+                                        selected="selected"
+                                        @endif
+                                        >{{$customer_type->type}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -209,8 +180,6 @@
         var phone = $("#phone");
         var account = $("#account");
         var password = $("#passwd");
-        var salary = $("#salary");
-        var hiredate = $("#datepicker-autoclose");
         objNameList = objNameList + avatar.attr("name") + "/"
         + name.attr("name") + "/"
         + address.attr("name") + "/"
@@ -218,9 +187,7 @@
         + email.attr("name") + "/"
         + phone.attr("name") + "/"
         + account.attr("name") + "/"
-        + salary.attr("name") + "/"
-        + password.attr("name") + "/"
-        + hiredate.attr("name") + "/";
+        + password.attr("name") + "/";
         validateInput(name);
         validateInput(address);
         validateInput(birth);
@@ -228,8 +195,6 @@
         validateInput(phone);
         validateInput(account);
         validateInput(password);
-        validateInput(salary);
-        validateInput(hiredate);
         validateInput(avatar);
         handleSubmit();
     });
@@ -247,7 +212,7 @@
             $.ajax({
                 type: "POST",
                 url: "../validate",
-                data: $("#frmEmployee").serialize(),
+                data: $("#frmCustomer").serialize(),
                 dataType: "json",
                 error: function (Xhr, json, error) {
                     if(obj.next().is('.notify-exists')) {
@@ -288,9 +253,9 @@
         });
     }
     function validateSelect(){
-        var valueDepartment = $( "#department option:selected" ).val();
+        var valueCustomerType = $( "#customer_type option:selected" ).val();
         var valueGender = $( "#gender option:selected" ).val();
-        if(valueGender == 0 || valueDepartment == 0){
+        if(valueGender == 0 || valueCustomerType == 0){
             return false;
         }
         return true;
@@ -312,13 +277,13 @@
             });
             var limitNameList = 0;
             if ($('#ckb-password').is(':checked')) {
-                limitNameList=12;
+                limitNameList=10;
             }
             else{
-                limitNameList = 11;
+                limitNameList = 9;
             }
             if(count == limitNameList  && validateSelect()){
-                $( '#frmEmployee').submit();
+                $( '#frmCustomer').submit();
             }
             else{
                 Swal.fire({

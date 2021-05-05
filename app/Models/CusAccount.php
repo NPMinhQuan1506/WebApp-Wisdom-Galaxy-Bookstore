@@ -11,6 +11,6 @@ class CusAccount extends Model
     use HasFactory;
 
     public function account(){
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'account_id', 'id');
     }
 }

@@ -1,4 +1,4 @@
-@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Nhân Viên'])
+@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Khách Hàng'])
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('public/backend/assets/extra-libs/multicheck/multicheck.css')}}">
 <link href="{{asset('public/backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
@@ -44,23 +44,21 @@
                     <div class="border-top">
                         <div class="add-button">
                             <button id="btnAdd" name="btnAdd" class="btn btn-facebook text-white"
-                                onclick="location.href = '{{URL::to('admin/nhan-vien/them')}}';">Thêm</button>
+                                onclick="location.href = '{{URL::to('admin/khach-hang/them')}}';">Thêm</button>
                         </div>
                         <div class="hide-select">
                             <label for="">Ẩn Các Cột: </label>
                             <select class="select2 form-select shadow-none" id="hide-column-sl" multiple="multiple"
                                 style="height: 36px;">
-                                {{-- <option value="1">Tên Nhân Viên</option> --}}
+                                {{-- <option value="1">Tên Khách Hàng</option> --}}
                                 <option value="2">Ảnh</option>
                                 <option value="3">Ngày Sinh</option>
                                 <option value="4">Giới Tính</option>
                                 <option value="5">Email</option>
                                 <option value="6">SĐT</option>
                                 <option value="7">Tài Khoản</option>
-                                <option value="8">Chức Vụ</option>
-                                <option value="9" selected>Lương</option>
-                                <option value="10" selected>Ngày Ký Hợp Đồng</option>
-                                <option value="11" selected>Địa Chỉ</option>
+                                <option value="8">Loại Khách Hàng</option>
+                                <option value="9" selected>Địa Chỉ</option>
                             </select>
                         </div>
 
@@ -70,23 +68,21 @@
                             <thead>
                                 <tr>
                                     <th style="width:20px !important;padding-left:25px">STT</th>
-                                    <th>Tên Nhân Viên</th>
+                                    <th>Tên Khách Hàng</th>
                                     <th>Ảnh</th>
                                     <th>Ngày Sinh</th>
                                     <th>Giới Tính</th>
                                     <th>Email</th>
                                     <th style="width: 150px !important">SĐT</th>
                                     <th>Tài Khoản</th>
-                                    <th>Chức Vụ</th>
-                                    <th>Lương (VNĐ)</th>
-                                    <th>Ngày Ký Hợp Đồng</th>
+                                    <th>Loại Khách Hàng</th>
                                     <th>Địa Chỉ</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($employees as $row)
+                                @foreach($customers as $row)
                                 <tr>
                                     <td style="width:20px !important;padding-left:25px"></td>
                                     <td>{{$row->name}}</td>
@@ -97,13 +93,7 @@
                                     <td>{{$row->email}}</td>
                                     <td style="width: 150px !important">{{$row->phone}}</td>
                                     <td>{{$row->username}}</td>
-                                    <td>{{$row->department}}</td>
-                                    <td>
-                                        @php
-                                        echo number_format((float)$row->salary, 0, '', ',');
-                                        @endphp
-                                    </td>
-                                    <td>{{$row->hire_date}}</td>
+                                    <td>{{$row->customer_type}}</td>
                                     <td>{{$row->address}}</td>
                                     <td>
                                         <button id="btnEdit" name="btnEdit" class="btn btn-facebook text-white"
@@ -116,18 +106,17 @@
                                 </tr>
                                 @endforeach
                             </tbody>
+
                             <tfoot>
                                 <th style="width:20px !important;padding-left:25px">STT</th>
-                                <th>Tên Nhân Viên</th>
+                                <th>Tên Khách Hàng</th>
                                 <th>Ảnh</th>
                                 <th>Ngày Sinh</th>
                                 <th>Giới Tính</th>
                                 <th>Email</th>
                                 <th style="width: 150px !important">SĐT</th>
                                 <th>Tài Khoản</th>
-                                <th>Chức Vụ</th>
-                                <th>Lương</th>
-                                <th>Ngày Ký Hợp Đồng</th>
+                                <th>Loại Khách Hàng</th>
                                 <th>Địa Chỉ</th>
                                 <th></th>
                                 <th></th>
@@ -216,6 +205,7 @@
             cell.innerHTML = i+1;
         } );
     } ).draw();
+
        //***********************************//
         // For select 2
         //***********************************//

@@ -11,12 +11,12 @@ class Image extends Model
     use HasFactory;
 
     public function customer(){
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'image_id', 'id');
     }
     public function employee(){
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'image_id', 'id');
     }
     public function product(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'image_id', 'id');
     }
 }

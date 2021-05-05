@@ -15,14 +15,15 @@ class DepartmentsTableSeeder extends Seeder
     {
         //
         $department = [
-            ['Admin'],
-            ['Thu Ngân'],
-            ['Quản Lý'],
-            ['Giao Hàng'],
+            ['Admin',2],
+            ['Thu Ngân',1],
+            ['Quản Lý',2],
+            ['Giao Hàng',1],
         ];
         foreach ($department as $department) {
             \App\Models\Department::create([
                    'name' => $department[0],
+                   'level' => $department[1],
                    'created_at' => date("Y-m-d H:i:s"),
                    'updated_at' => date("Y-m-d H:i:s"),
                ]);

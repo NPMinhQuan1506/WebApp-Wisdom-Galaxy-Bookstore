@@ -11,18 +11,18 @@ class Customer extends Model
     use HasFactory;
 
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->hasOne(Image::class, 'id', 'image_id');
     }
     public function gender(){
-        return $this->belongsTo(Gender::class);
+        return $this->belongsTo(Gender::class, 'id', 'gender_id');
     }
     public function type(){
-        return $this->belongsTo(CustomerType::class);
+        return $this->belongsTo(CustomerType::class, 'id', 'customer_type_id');
     }
     public function account(){
-        return $this->hasOne(CustomerAccount::class);
+        return $this->hasOne(CusAccount::class, 'id', 'account_id');
     }
     public function order(){
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 }

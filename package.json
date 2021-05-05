@@ -16,6 +16,9 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
+        "@sweetalert2/theme-borderless": "^4.0.5",
+        "feather-icons": "^4.28.0",
+        "pretty-checkbox": "^3.0.3",
         "sweetalert": "^2.1.2",
         "sweetalert2": "^10.16.6"
     }

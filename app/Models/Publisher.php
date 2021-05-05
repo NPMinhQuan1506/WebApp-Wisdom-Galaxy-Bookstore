@@ -10,7 +10,7 @@ class Publisher extends Model
     protected $table = "publisher";
     use HasFactory;
 
-    public function product_detail(){
-        return $this->hasMany(ProductDetail::class);
+    public function product(){
+        return $this->hasMany(ProductDetail::class, 'publisher_id', 'id');
     }
 }

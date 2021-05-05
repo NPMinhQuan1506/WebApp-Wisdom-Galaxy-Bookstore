@@ -11,16 +11,16 @@ class Employee extends Model
     use HasFactory;
 
     public function image(){
-        return $this->hasOne(Image::class);
+        return $this->hasOne(Image::class, 'id', 'image_id');
     }
     public function gender(){
-        return $this->belongsTo(Gender::class);
+        return $this->belongsTo(Gender::class, 'id', 'gender_id');
     }
     public function department(){
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'id', 'department_id');
     }
     public function account(){
-        return $this->hasOne(EmployeeAccount::class);
+        return $this->hasOne(EmpAccount::class, 'id', 'account_id');
     }
     public function order(){
         return $this->hasMany(Order::class);

@@ -1,4 +1,4 @@
-@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Nhân Viên'])
+@extends('templates.admin_master' , ['tittlePage' => 'Danh Mục Sản Phẩm'])
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{asset('public/backend/assets/extra-libs/multicheck/multicheck.css')}}">
 <link href="{{asset('public/backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
@@ -44,23 +44,22 @@
                     <div class="border-top">
                         <div class="add-button">
                             <button id="btnAdd" name="btnAdd" class="btn btn-facebook text-white"
-                                onclick="location.href = '{{URL::to('admin/nhan-vien/them')}}';">Thêm</button>
+                                onclick="location.href = '{{URL::to('admin/san-pham/them')}}';">Thêm</button>
                         </div>
                         <div class="hide-select">
                             <label for="">Ẩn Các Cột: </label>
                             <select class="select2 form-select shadow-none" id="hide-column-sl" multiple="multiple"
                                 style="height: 36px;">
-                                {{-- <option value="1">Tên Nhân Viên</option> --}}
-                                <option value="2">Ảnh</option>
-                                <option value="3">Ngày Sinh</option>
-                                <option value="4">Giới Tính</option>
-                                <option value="5">Email</option>
-                                <option value="6">SĐT</option>
-                                <option value="7">Tài Khoản</option>
-                                <option value="8">Chức Vụ</option>
-                                <option value="9" selected>Lương</option>
-                                <option value="10" selected>Ngày Ký Hợp Đồng</option>
-                                <option value="11" selected>Địa Chỉ</option>
+                                <option value="3">Ảnh</option>
+                                <option value="4">Loại Sản Phẩm</option>
+                                <option value="5" >Số Lượng</option>
+                                <option value="6" >Đơn Vị</option>
+                                <option value="7" selected>Hàng Tồn Tối Thiểu</option>
+                                <option value="8">Giá Bán</option>
+                                <option value="9" selected>Phiên Bản</option>
+                                <option value="10" >Nhà Cung Cấp</option>
+                                <option value="11" selected>Nhà Xuất Bản</option>
+                                <option value="12" selected>Tác Giả</option>
                             </select>
                         </div>
 
@@ -70,71 +69,82 @@
                             <thead>
                                 <tr>
                                     <th style="width:20px !important;padding-left:25px">STT</th>
-                                    <th>Tên Nhân Viên</th>
+                                    <th>BarCode</th>
+                                    <th>Tên Sản Phẩm</th>
                                     <th>Ảnh</th>
-                                    <th>Ngày Sinh</th>
-                                    <th>Giới Tính</th>
-                                    <th>Email</th>
-                                    <th style="width: 150px !important">SĐT</th>
-                                    <th>Tài Khoản</th>
-                                    <th>Chức Vụ</th>
-                                    <th>Lương (VNĐ)</th>
-                                    <th>Ngày Ký Hợp Đồng</th>
-                                    <th>Địa Chỉ</th>
+                                    <th>Loại Sản Phẩm</th>
+                                    <th style="text-align: center">Số Lượng</th>
+                                    <th style="text-align: center">Đơn vị</th>
+                                    <th >Hàng Tồn Tối Thiểu</th>
+                                    <th style="text-align: center">Giá Bán (VNĐ)</th>
+                                    <th style="text-align: center">Phiên Bản</th>
+                                    <th>Nhà Cung Cấp</th>
+                                    <th>Nhà Xuất Bản</th>
+                                    <th>Tác Giả</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($employees as $row)
+                                @foreach($products as $row)
                                 <tr>
                                     <td style="width:20px !important;padding-left:25px"></td>
+                                    <td style="width:20px !important;padding-left:25px">{{$row->barcode}}</td>
                                     <td>{{$row->name}}</td>
                                     <td><img class="card-img-bottom" src="https://docs.google.com/uc?id={{$row->path}}">
                                     </td>
-                                    <td>{{$row->date_of_birth}}</td>
-                                    <td>{{$row->gender}}</td>
-                                    <td>{{$row->email}}</td>
-                                    <td style="width: 150px !important">{{$row->phone}}</td>
-                                    <td>{{$row->username}}</td>
-                                    <td>{{$row->department}}</td>
                                     <td>
                                         @php
-                                        echo number_format((float)$row->salary, 0, '', ',');
+                                        echo App\Http\Controllers\Admin\ProductController::getCategory($row->sku);
                                         @endphp
                                     </td>
-                                    <td>{{$row->hire_date}}</td>
-                                    <td>{{$row->address}}</td>
+                                    <td style="width: 30px !important; text-align: center">{{$row->inventory_number}}</td>
+                                    <td style="width: 30px !important; text-align: center">{{$row->unit}}</td>
+                                    <td style="text-align: center">{{$row->min_inventory_number}}</td>
+                                    <td style="width: 30px !important; text-align: center">
+                                        @php
+                                            echo number_format((float)$row->selling_price, 0, '', ',');
+                                        @endphp
+                                    </td>
+                                    <td style="width: 30px !important; text-align: center">{{$row->edition}}</td>
+                                    <td>{{$row->supplier}}</td>
+                                    <td>{{$row->publisher}}</td>
+                                    <td>
+                                        @php
+                                        echo App\Http\Controllers\Admin\ProductController::getAuthor($row->sku);
+                                        @endphp
+                                    </td>
+
                                     <td>
                                         <button id="btnEdit" name="btnEdit" class="btn btn-facebook text-white"
-                                            onclick="window.location.href='sua/{{$row->id}}'">Sửa</button>
+                                            onclick="window.location.href='sua/{{$row->sku}}'">Sửa</button>
                                     </td>
                                     <td>
                                         <button id="btnDelete" name="btnDelete" class="btn btn-danger text-white"
-                                            onclick="confirmDeletion({{$row->id}})">Xóa</button>
+                                            onclick="confirmDeletion({{$row->sku}})">Xóa</button>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <th style="width:20px !important;padding-left:25px">STT</th>
-                                <th>Tên Nhân Viên</th>
+                                <th>BarCode</th>
+                                <th>Tên Sản Phẩm</th>
                                 <th>Ảnh</th>
-                                <th>Ngày Sinh</th>
-                                <th>Giới Tính</th>
-                                <th>Email</th>
-                                <th style="width: 150px !important">SĐT</th>
-                                <th>Tài Khoản</th>
-                                <th>Chức Vụ</th>
-                                <th>Lương</th>
-                                <th>Ngày Ký Hợp Đồng</th>
-                                <th>Địa Chỉ</th>
+                                <th>Loại Sản Phẩm</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Vị</th>
+                                <th>Hàng Tồn Tối Thiểu</th>
+                                <th>Giá Bán</th>
+                                <th>Phiên Bản</th>
+                                <th>Nhà Cung Cấp</th>
+                                <th>Nhà Xuất Bản</th>
+                                <th>Tác Giả</th>
                                 <th></th>
                                 <th></th>
                             </tfoot>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -158,11 +168,20 @@
                 case "STT":
                 $(this).html( '<input style="width: 70px;border: none; outline: none;" type="text" readonly placeholder="Lọc" />' );
                 break;
-                case "Giới Tính":
-                $(this).html( '<input style="width: 70px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
+                case "Số Lượng":
+                $(this).html( '<input style="width: 90px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
                 break;
-                case "Ngày Sinh":
-                $(this).html( '<input style="width: 100px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
+                case "Đơn Vị":
+                $(this).html( '<input style="width: 90px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
+                break;
+                case "Hàng Tồn Tối Thiểu":
+                $(this).html( '<input style="width: 130px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
+                break;
+                case "Giá Bán":
+                $(this).html( '<input style="width: 110px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
+                break;
+                case "Phiên Bản":
+                $(this).html( '<input style="width: 80px;border: none; outline: none;" type="text" placeholder="'+title +'" />' );
                 break;
                 default:
                 $(this).html( '<input style="border: none;" type="text" placeholder="'+title +'" />' );

@@ -16,6 +16,7 @@ class CreatePublisherTable extends Migration
         Schema::create('publisher', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 200);
+            $table->string('note', 16000)->nullable();
             $table->boolean('is_enable')->default(true);
             $table->timestamps();
         });

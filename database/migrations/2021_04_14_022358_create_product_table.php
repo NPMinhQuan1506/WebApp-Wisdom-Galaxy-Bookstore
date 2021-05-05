@@ -21,7 +21,9 @@ class CreateProductTable extends Migration
             $table->foreign('supplier_id')->references('id')->on('supplier');
             $table->integer('image_id')->unsigned();
             $table->foreign('image_id')->references('id')->on('image');
-            $table->string('init', 50);
+            $table->integer('inventory_number')->usigned();
+            $table->string('unit', 50);
+            $table->integer('min_inventory_number')->usigned();
             $table->unsignedDecimal('selling_price',$total = 25, $places = 2);
             $table->boolean('is_enable')->default(true);
             $table->timestamps();

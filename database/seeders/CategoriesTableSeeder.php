@@ -222,7 +222,7 @@ class CategoriesTableSeeder extends Seeder
             ['Tài Liệu Tham Khảo', '410', '411'],
             ['Dụng Cụ Âm Nhạc', '413', '428'],
             ['Guitar', '414', '421'],
-            ['Classic', '415', '416'],
+            ['Classical', '415', '416'],
             ['Accoustic', '417', '418'],
             ['Electric', '419', '420'],
             ['Ukulele', '422', '423'],

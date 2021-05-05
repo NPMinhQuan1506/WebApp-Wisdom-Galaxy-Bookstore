@@ -17,6 +17,7 @@ class CreateImageTable extends Migration
             $table->increments('id');
             $table->string('path');
             $table->string('extension', 100);
+            $table->boolean('is_enable')->default(true);
             $table->timestamps();
         });
     }

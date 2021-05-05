@@ -11,9 +11,9 @@ class Gender extends Model
     use HasFactory;
 
     public function customer(){
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Customer::class, 'gender_id', 'id');
     }
     public function employee(){
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Employee::class, 'gender_id', 'id');
     }
 }

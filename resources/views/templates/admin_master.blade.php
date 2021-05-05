@@ -16,8 +16,17 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('public/backend/assets/images/favicon.png')}}">
     <!-- Sweetalert -->
-    <link  rel="stylesheet" href="{{asset('node_modules/sweetalert2/dist/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('node_modules/sweetalert2/dist/sweetalert2.min.css')}}">
     <script src="{{asset('node_modules/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    <style>
+        button.swal2-cancel.btn.btn-danger {
+            margin-right: 10px;
+        }
+    </style>
+    <!-- Pretty checkbox-->
+    <link rel="stylesheet" href="{{asset('node_modules/pretty-checkbox/dist/pretty-checkbox.min.css')}}">
+    <!--feathericon-->
+    <script src="{{asset('node_modules/feather-icons/dist/feather.min.js')}}"></script>
     <!-- Custom CSS -->
     @yield('css')
     <!-- Custom CSS -->
@@ -154,17 +163,44 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="pt-4">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="{{URL::to('admin/dashboard')}}" aria-expanded="false">
+                                <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Tổng Quan</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{URL::to('admin/dashboard')}}" aria-expanded="false"><i
-                                    class="mdi mdi-view-dashboard"></i><span class="hide-menu">Tổng Quan</span></a></li>
+                            href="{{URL::to('admin/khach-hang/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Khách Hàng</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/loai-khach-hang/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Loại Khách Hàng</span></a>
+                        </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="{{URL::to('admin/nhan-vien/danh-sach')}}" aria-expanded="false"><i
                                     class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Nhân Viên</span></a>
                         </li>
-
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/chuc-vu/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Chức Vụ</span></a>
                         </li>
-
-
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/tac-gia/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Tác Giả</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/san-pham/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Sản Phẩm</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/nha-xuat-ban/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Nhà Xuất Bản</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/nha-cung-cap/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Nhà Cung Cấp</span></a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -184,7 +220,12 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">{{$tittlePage}}</h4>
+                        <h4 class="page-title">{{$tittlePage}}
+                        @isset($tittleCRUD)
+                        <small class="text-muted">- {{$tittleCRUD}}</small>
+                        @endisset
+
+                        </h4>
                         <div class="ms-auto text-end">
                         </div>
                     </div>
@@ -198,22 +239,23 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- Recent comment and chats -->
-    <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
-    <footer class="footer text-center" style="margin-left: 18%">
-        © 2021. All Right Reserved. Wisdom Galaxy Bookstore. Designed and Developed by <b style="color: #00003b">NPMinhQuan</b>.
-    </footer>
-    <!-- ============================================================== -->
-    <!-- End footer -->
-    <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Recent comment and chats -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer text-center" style="margin-left: 18%">
+            © 2021. All Right Reserved. Wisdom Galaxy Bookstore. Designed and Developed by <b
+                style="color: #00003b">NPMinhQuan</b>.
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
     </div>
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
