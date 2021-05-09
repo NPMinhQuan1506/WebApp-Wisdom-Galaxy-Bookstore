@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PublisherController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Core\AjaxController;
 use App\Http\Controllers\HomeController;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
 use App\Http\Controllers\Core\GoogleDriverController;
+use App\Models\Employee;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,21 +34,25 @@ use App\Http\Controllers\Core\GoogleDriverController;
 Route::get('/', [HomeController::class, 'index'] );
 Route::get('/trang-chu',  [HomeController::class, 'index']);
 Route::get('/hello', function (){
-    return 'Hello World';
+    $admin = Employee::find(1)->first();
+    $level =  $admin->department->level;
+    return  $level;
 });
 //Backend
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/admin-login', [AdminController::class, "postAdminLogin"]);
 Route::get('/admin-logout', [AdminController::class, "getAdminLogout"]);
-Route::get('/admin/dashboard', [AdminController::class, 'showDashboard']);
+
 //Validation
 
 //Ajax
 Route::group(['prefix'=>'ajax'], function (){
     Route::post('check-exists', [AjaxController::class, 'checkExists']);
 });
+Route::group(['prefix'=>'/admin','namespace'=>'Admin','middleware'=>'loginAdmin'],function(){
+    Route::get('/dashboard', [AdminController::class, 'showDashboard']);
 //Employee
-Route::group(['prefix'=>'/admin/nhan-vien'],function (){
+Route::group(['prefix'=>'/nhan-vien'],function (){
 Route::get('/danh-sach', [EmployeeController::class, 'index']);
 Route::post('/validate', [EmployeeController::class, 'validateElement']);
 Route::get('/them', [EmployeeController::class, 'create']);
@@ -56,7 +62,7 @@ Route::post('/store', [EmployeeController::class, 'store']);
 Route::post('/update/{id}', [EmployeeController::class, 'update']);
 });
 //Customer
-Route::group(['prefix'=>'/admin/khach-hang'],function (){
+Route::group(['prefix'=>'/khach-hang'],function (){
     Route::get('/danh-sach', [CustomerController::class, 'index']);
     Route::post('/validate', [CustomerController::class, 'validateElement']);
     Route::get('/them', [CustomerController::class, 'create']);
@@ -66,7 +72,7 @@ Route::group(['prefix'=>'/admin/khach-hang'],function (){
     Route::post('/update/{id}', [CustomerController::class, 'update']);
     });
  //CustomerType
-Route::group(['prefix'=>'/admin/loai-khach-hang'],function (){
+Route::group(['prefix'=>'/loai-khach-hang'],function (){
     Route::get('/danh-sach', [CustomerTypeController::class, 'index']);
     Route::post('/validate', [CustomerTypeController::class, 'validateElement']);
     Route::get('/them', [CustomerTypeController::class, 'create']);
@@ -76,7 +82,7 @@ Route::group(['prefix'=>'/admin/loai-khach-hang'],function (){
     Route::post('/update/{id}', [CustomerTypeController::class, 'update']);
     });
 //Author
-Route::group(['prefix'=>'/admin/tac-gia'],function (){
+Route::group(['prefix'=>'/tac-gia'],function (){
     Route::get('/danh-sach', [AuthorController::class, 'index']);
     Route::post('/validate', [AuthorController::class, 'validateElement']);
     Route::get('/them', [AuthorController::class, 'create']);
@@ -86,7 +92,7 @@ Route::group(['prefix'=>'/admin/tac-gia'],function (){
     Route::post('/update/{id}', [AuthorController::class, 'update']);
     });
 //Publisher
-Route::group(['prefix'=>'/admin/nha-xuat-ban'],function (){
+Route::group(['prefix'=>'/nha-xuat-ban'],function (){
     Route::get('/danh-sach', [PublisherController::class, 'index']);
     Route::post('/validate', [PublisherController::class, 'validateElement']);
     Route::get('/them', [PublisherController::class, 'create']);
@@ -96,7 +102,7 @@ Route::group(['prefix'=>'/admin/nha-xuat-ban'],function (){
     Route::post('/update/{id}', [PublisherController::class, 'update']);
     });
 //Supplier
-Route::group(['prefix'=>'/admin/nha-cung-cap'],function (){
+Route::group(['prefix'=>'/nha-cung-cap'],function (){
     Route::get('/danh-sach', [SupplierController::class, 'index']);
     Route::post('/validate', [SupplierController::class, 'validateElement']);
     Route::get('/them', [SupplierController::class, 'create']);
@@ -106,7 +112,7 @@ Route::group(['prefix'=>'/admin/nha-cung-cap'],function (){
     Route::post('/update/{id}', [SupplierController::class, 'update']);
     });
  //Department
-Route::group(['prefix'=>'/admin/chuc-vu'],function (){
+Route::group(['prefix'=>'/chuc-vu'],function (){
     Route::get('/danh-sach', [DepartmentController::class, 'index']);
     Route::post('/validate', [DepartmentController::class, 'validateElement']);
     Route::get('/them', [DepartmentController::class, 'create']);
@@ -115,8 +121,8 @@ Route::group(['prefix'=>'/admin/chuc-vu'],function (){
     Route::post('/store', [DepartmentController::class, 'store']);
     Route::post('/update/{id}', [DepartmentController::class, 'update']);
     });
- //Department
- Route::group(['prefix'=>'/admin/san-pham'],function (){
+ //Product
+ Route::group(['prefix'=>'/san-pham'],function (){
     Route::get('/danh-sach', [ProductController::class, 'index']);
     Route::post('/validate', [ProductController::class, 'validateElement']);
     Route::get('/them', [ProductController::class, 'create']);
@@ -124,5 +130,18 @@ Route::group(['prefix'=>'/admin/chuc-vu'],function (){
     Route::get('/xoa/{id}', [ProductController::class, 'destroy']);
     Route::post('/store', [ProductController::class, 'store']);
     Route::post('/update/{id}', [ProductController::class, 'update']);
-    Route::POST('/get-child-categories', [ProductController::class, 'getChildCategory']);
+    Route::post('/get-child-categories', [ProductController::class, 'getChildCategory']);
     });
+ //Order
+ Route::group(['prefix'=>'/hoa-don'],function (){
+    Route::get('/danh-sach', [OrderController::class, 'index']);
+    Route::post('/validate', [OrderController::class, 'validateElement']);
+    Route::get('/them', [OrderController::class, 'create']);
+    Route::get('/sua/{id}', [OrderController::class, 'edit']);
+    Route::get('/xoa/{id}', [ProductController::class, 'destroy']);
+    Route::get('/xoa-chi-tiet/{order_id}/{product_id}', [ProductController::class, 'destroyDetail']);
+    Route::post('/store', [OrderController::class, 'store']);
+    Route::post('/update/{id}', [OrderController::class, 'update']);
+    Route::post('/show', [OrderController::class, 'show']);
+    });
+});

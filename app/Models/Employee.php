@@ -14,10 +14,10 @@ class Employee extends Model
         return $this->hasOne(Image::class, 'id', 'image_id');
     }
     public function gender(){
-        return $this->belongsTo(Gender::class, 'id', 'gender_id');
+        return $this->belongsTo(Gender::class);
     }
     public function department(){
-        return $this->belongsTo(Department::class, 'id', 'department_id');
+        return $this->belongsTo(Department::class);
     }
     public function account(){
         return $this->hasOne(EmpAccount::class, 'id', 'account_id');

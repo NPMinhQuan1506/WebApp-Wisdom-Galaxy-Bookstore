@@ -18,6 +18,7 @@ class CreateCusAccountTable extends Migration
             $table->increments('id');
             $table->string('username')->unique('username');
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_enable')->default(true);
             $table->rememberToken();
             $table->timestamps();

@@ -11,6 +11,6 @@ class Publisher extends Model
     use HasFactory;
 
     public function product(){
-        return $this->hasMany(ProductDetail::class, 'publisher_id', 'id');
+        return $this->hasMany(ProductDetail::class);
     }
 }

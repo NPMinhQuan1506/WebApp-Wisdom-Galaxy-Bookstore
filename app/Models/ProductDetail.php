@@ -12,7 +12,7 @@ class ProductDetail extends Model
     use HasFactory;
 
     public function publisher(){
-        return $this->belongsTo(Publisher::class, 'id', 'publisher_id');
+        return $this->belongsTo(Publisher::class);
     }
     public function author(){
         return $this->belongsToMany(Author::class, 'product_author', 'product_id', 'author_id');

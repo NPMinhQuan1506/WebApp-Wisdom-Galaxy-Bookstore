@@ -105,7 +105,7 @@ class PublisherController extends Controller
     {
         //
         $publisher = Publisher::find($id);
-        $books = $publisher->product;
+        $books = $publisher->product()->whereRaw('`product`.`is_enable`=1');
         if($books->count() > 0)
         {
             return Redirect::to('/admin/nha-xuat-ban/danh-sach')->with("error","Không thể xóa nhà xuất bản. Cần xóa các sách thuộc nhà xuất bản này");

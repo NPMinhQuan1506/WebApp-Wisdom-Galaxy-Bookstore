@@ -105,13 +105,13 @@ class CustomerTypeController extends Controller
     {
         //
         $customer_type = CustomerType::find($id);
-        $customers = $customer_type->customer;
+        $customers = $customer_type->customer()->whereRaw(' `customer`.`is_enable`=1');
         if($customers->count() > 0)
         {
             return Redirect::to('/admin/loai-khach-hang/danh-sach')->with("error","Không thể xóa loại khách hàng. Cần xóa các khách hàng thuộc loại này");
         }
         else{
-            $customer_type->delete();
+            $customer_type->is_enable = 0;
             return Redirect::to('/admin/loai-khach-hang/danh-sach')->with("success","Xóa loại khách hàng thành công");
         }
 

@@ -30,6 +30,6 @@ class Product extends Model
         return $this->hasOne(Image::class, 'id', 'image_id');
     }
     public function supplier(){
-        return $this->belongsTo(Supplier::class, 'id', 'supplier_id');
+        return $this->belongsTo(Supplier::class);
     }
 }

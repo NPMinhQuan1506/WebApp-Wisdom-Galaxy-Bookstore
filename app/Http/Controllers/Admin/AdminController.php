@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     //
@@ -23,26 +23,28 @@ class AdminController extends Controller
     }
     public function postAdminLogin(Request $request)
     {
-        $admin_username = $request->admin_username;
-        $admin_password =  $request->admin_password;
-        $result = Employee::join('emp_account','employee.account_id','emp_account.id')->where([['emp_account.username', $admin_username], ['emp_account.is_enable',1]])->first();
-        if ($result && Hash::check($admin_password, $result->password)) {
-            // $employee = EmpAccount::find($result->id)->employee->toArray();
-            Session::put('admin_name', $result->name);
-            Session::put('emp_id', $result->id);
-            return Redirect::to('/admin/dashboard');
+        $credentials = $request->only('username', 'password');
+        if ($request->remember == trans('remember.Remember Me')) {
+            $remember = true;
+        } else {
+            $remember = false;
         }
-        else{
-            $result = null;
+        if (Auth::guard('emp_account')->attempt($credentials)) {
+            $request->session()->regenerate();
+            $admin = Employee::where('account_id', Auth::guard('emp_account')->id())->first();
+            Session::put('admin', $admin);
+            return redirect()->intended('/admin/dashboard');
+        }
+        else {
             Session::put('message', 'Mật khẩu hoặc tài khoản không chính xác!</br> Vui lòng kiểm tra lại.');
             return Redirect::to('/admin');
         }
-
     }
     public function getAdminLogout()
     {
         Session::put('admin_name', null);
-        Session::put('emp_id', null);
+        Auth::logout();
+        session()->flush();
         return Redirect::to('/admin');
     }
 

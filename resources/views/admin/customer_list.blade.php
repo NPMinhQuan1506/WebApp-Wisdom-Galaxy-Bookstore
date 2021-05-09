@@ -270,11 +270,6 @@
             }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href='xoa/'+id;
-                swalWithBootstrapButtons.fire(
-                'Đã xóa!',
-                'Dữ liệu đã bị xóa.',
-                'success'
-                )
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel

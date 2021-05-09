@@ -23,6 +23,6 @@ class Customer extends Model
         return $this->hasOne(CusAccount::class, 'id', 'account_id');
     }
     public function order(){
-        return $this->hasMany(Order::class, 'customer_id', 'id');
+        return $this->hasMany(Order::class);
     }
 }

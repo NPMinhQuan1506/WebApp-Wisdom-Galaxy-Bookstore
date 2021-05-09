@@ -46,6 +46,15 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'emp_account' => [
+            'driver' => 'session',
+            'provider' => 'emp_accounts',
+        ],
+        'emp_account-api' => [
+            'driver' => 'token',
+            'provider' => 'emp_accounts',
+        ],
+
     ],
 
     /*
@@ -71,6 +80,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'emp_accounts' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\EmpAccount::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -98,6 +111,11 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'emp_accounts' => [
+            'provider' => 'emp_accounts',
+            'table' => 'password_resets',
+            'expire' => 60,
         ],
     ],
 

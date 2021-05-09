@@ -11,9 +11,9 @@ class Supplier extends Model
     use HasFactory;
 
     public function product(){
-        return $this->hasMany(Product::class, 'supplier_id', 'id');
+        return $this->hasMany(Product::class);
     }
     public function import(){
-        return $this->hasMany(Import::class, 'supplier_id', 'id');
+        return $this->hasMany(Import::class);
     }
 }

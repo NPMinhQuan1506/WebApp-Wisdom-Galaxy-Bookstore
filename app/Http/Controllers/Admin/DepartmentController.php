@@ -107,13 +107,13 @@ class DepartmentController extends Controller
     {
         //
         $department = Department::find($id);
-        $employees = $department->employee;
+        $employees = $department->employee()->whereRaw('`employee`.`is_enable`=1');
         if($employees->count() > 0)
         {
             return Redirect::to('/admin/chuc-vu/danh-sach')->with("error","Không thể xóa chức vụ. Cần xóa các nhân viên thuộc chức vụ này");
         }
         else{
-            $department->delete();
+            $department->is_enable = 0;
             return Redirect::to('/admin/chuc-vu/danh-sach')->with("success","Xóa chức vụ thành công");
         }
 

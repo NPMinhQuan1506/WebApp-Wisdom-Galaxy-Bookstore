@@ -18,5 +18,6 @@ class VerifyCsrfToken extends Middleware
     '*/ajax/check-exists',
     '*/validate',
     '*/get-child-categories',
+    '*/show'
 ];
 }

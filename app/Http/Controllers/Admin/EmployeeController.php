@@ -213,6 +213,13 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         $account = EmpAccount::find($employee->account_id);
         $image = Image::find($employee->image_id);
+        $order = $employee->order()->whereRaw('`order`.`is_enable`=1');
+        $import = $employee->import()->whereRaw('`import`.`is_enable`=1');
+        if($order->count() > 0 || $import->count() > 0)
+        {
+            return Redirect::to('/admin/nhan-vien/danh-sach')->with("error","Không thể xóa nhân viên. Cần xóa các đơn hàng và đơn nhập hàng có nhân viên này");
+        }
+
         $employee->is_enable = 0;
         $account->is_enable = 0;
         $image->is_enable = 0;

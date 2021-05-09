@@ -6,9 +6,9 @@
 <div>
     <p style="padding-left: 20px; font-size: 1em; font-weight: bold;">Xin Chào
          <?php
-        $name = Session::get('admin_name');
-        if($name){
-            echo $name;
+        $admin = Session::get('admin');
+        if($admin){
+            echo $admin->name;
         }
     ?></h1>
 </div>

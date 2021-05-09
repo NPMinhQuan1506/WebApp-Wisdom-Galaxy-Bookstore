@@ -4,12 +4,15 @@
 <link rel="stylesheet" type="text/css"
     href="{{asset('public/backend/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('public/backend/assets/libs/quill/dist/quill.snow.css')}}">
+<style>
+
+</style>
 @endsection
 @section('content_admin')
 <div class="container-fluid">
     <div class="row" style="margin-left: 10%;margin-right: 10%">
         <form id="frmProduct" name="frmProduct" enctype="multipart/form-data"
-            action="{{URL::to('/admin/khach-hang/store')}}" method="POST">
+            action="{{URL::to('/admin/san-pham/store')}}" method="POST">
             @csrf
             <div class="card">
                 <div class="card-body">
@@ -31,7 +34,8 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-5">
-                            <label for="barcode" class="text-end control-label col-form-label">Barcode</label>
+                            <label for="barcode" class="text-end control-label col-form-label">Barcode<small class="text-muted">
+                                Ít nhất 10 ký tư( số, chữ hoa, chữ thường)</small></label>
                             <input type="text" autocomplete="off" class="form-control" id="barcode" name="barcode"
                                 placeholder="Nhập Barcode">
                             <div class="notify-exists">
@@ -61,7 +65,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-3" style="height: 100px">
+                    <div class="row mb-3">
                         <div class="form-group col-lg-7">
                             <div class="row mb-3">
                                 <div class="form-group col-lg-6">
@@ -89,9 +93,9 @@
                         </div>
                         <div class="form-group col-lg-5">
                             <label for="genre" class="">Thể Loại</label>
-                            <select class="select2 form-select shadow-none" name="genre" id="genre" multiple="multiple"
+                            <select class="select2 form-select shadow-none" name="genre[]" id="genre" multiple="multiple"
                                 style="width: 100%; height:36px;">
-                                <option value="0">Chọn Thể Loại</option>
+                                <option value="0" disabled>Chọn Thể Loại</option>
                             </select>
                         </div>
                     </div>
@@ -99,15 +103,15 @@
                         <div class="form-group col-lg-7">
                             <label for="inventory_number" class="text-end control-label col-form-label">Số Lượng</label>
                             <div class="">
-                                <div class="row mb-3">
-                                    <div class="col-lg-9">
+                                <div class="input-group">
+
                                         <input type="number" min="1" step="5" id="inventory_number"
-                                            name="inventory_number" class="form-control" value=""
+                                            name="inventory_number" class="form-control" value="0"
                                             placeholder="Nhập Số Lượng" aria-label="Recipient 's username"
-                                            aria-describedby="basic-addon2">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <select class="form-select shadow-none" name="unit" id="unit"
+                                            aria-describedby="basic-addon2" readonly>
+
+                                    <div class="input-group-append"  style="width: 20%;">
+                                        <select class="form-select shadow-none input-group-text" name="unit" id="unit"
                                             style="width: 100%; height:36px;">
                                             <option value='cái'>cái</option>
                                             <option value='quyển'>quyển</option>
@@ -123,15 +127,11 @@
                             <label for="min_inventory_number" class="text-end control-label col-form-label">Số Lượng Tồn
                                 Tối Thiểu</label>
                             <div class="">
-                                <div class="row mb-3">
-                                    <div class="">
-                                        <input type="number" min="100" step="5" id="min_inventory_number"
+                                        <input type="number" min="100" step="5" max="220" id="min_inventory_number"
                                             name="min_inventory_number" class="form-control" value=""
                                             placeholder="Nhập Số Lượng Tối Thiểu" aria-label="Recipient 's username"
                                             aria-describedby="basic-addon2">
-                                    </div>
-                                    <div class="notify-exists valid-feedback"></div>
-                                </div>
+                                            <div class="notify-exists valid-feedback"></div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                             <label for="edition" class="text-end control-label col-form-label">Phiên Bản</label>
                             <div class="">
                                 <div class="input-group">
-                                    <input type="number" min="1" step="1" id="edition" name="edition"
+                                    <input type="number" min="1" step="1" max="20" id="edition" name="edition"
                                         class="form-control" value="1" placeholder="100000"
                                         aria-label="Recipient 's username" aria-describedby="basic-addon2">
                                     {{-- <div class="notify-exists valid-feedback">Dữ Liệu Hợp Lệ</div> --}}
@@ -164,9 +164,8 @@
                         <div class="form-group col-lg-7">
                             <label for="author" class="">Tác Giả</label>
                             <div class="">
-                                <select class="select2 form-select shadow-none" name="author" id="author"
+                                <select class="select2 form-select shadow-none" name="author[]" id="author"
                                     multiple="multiple" style="width: 100%; height:36px;">
-                                    <option value="0">Chọn Tác Giả</option>
                                     @foreach($authors as $author)
                                     <option value='{{$author->id}}'>{{$author->name}}</option>
                                     @endforeach
@@ -217,12 +216,12 @@
         var avatar = $("#validatedCustomFile")
         var name = $("#name");
         var barcode = $("#barcode");
-        var inventory_number = $("#inventory_number");
+        var min_inventory_number = $("#min_inventory_number");
         var selling_price = $("#selling_price");
         validateInput(avatar);
         validateInput(name);
         validateInput(barcode);
-        validateInput(inventory_number);
+        validateInput(min_inventory_number);
         validateInput(selling_price);
         handleSubmit();
     });
@@ -280,13 +279,28 @@
             });
         });
     }
+    function validateCategory(){
+        var countOption =  $("#genre option").length;
+        var valueCategory = $( "#category option:selected" ).val();
+        var valueGroupGenre = $( "#group_genre option:selected" ).val();
+        var valueGenre = $( "#genre option:selected" ).val();
+        if(valueCategory == 0 || valueGroupGenre == 0){
+            return false;
+        }
+        else{
+            if(countOption != 1 && valueGenre == 0){
+               return false;
+            }
+        }
+        return true;
+    }
     function validateSelect(){
         var valueCategory = $( "#category option:selected" ).val();
         var valueUnit = $( "#unit option:selected" ).val();
         var valueSupplier = $( "#supplier option:selected" ).val();
         var valuePublisher = $( "#publisher option:selected" ).val();
         var valueAuthor = $( "#author option:selected" ).val();
-        if(valueCategory == 0 || valueUnit == 0 || valueSupplier == 0 || valuePublisher == 0 || valueAuthor == 0){
+        if(valueUnit == 0 || valueSupplier == 0 || valuePublisher == 0 || valueAuthor == 0){
             return false;
         }
         return true;
@@ -295,7 +309,7 @@
         $('#btnSave').click(function (e) {
             e.preventDefault();
             var count = objNameList.split("/").length;
-            if(count == 7  && validateSelect()){
+            if(count == 7  && validateSelect() && validateCategory()){
                 $( '#frmProduct').submit();
             }
             else{
@@ -425,16 +439,38 @@
                     if(obj.attr('name')=="category")
                     {
                         $('#genre').empty();
-                        $('#genre').append('<option value="0">Chọn Thể Loại</option>');
+                        $('#genre').append('<option value="0" disabled>Chọn Thể Loại</option>');
                         var selectNext = $('#group_genre');
                         selectNext.empty();
                         selectNext.append('<option value="0">Chọn Nhóm Thể Loại</option>');
+                        var valueSelect =  obj.find(":selected").text();
+                        if(valueSelect.includes("Sách ")){
+                            $('#author').prop('disabled', false);
+                            $('#publisher').prop('disabled', false);
+                            $("#unit option[value='quyển']").attr('selected', true);
+                            $("#unit option[value='cái']").attr('disabled', true);
+                            $("#unit option[value='hộp']").attr('disabled', true);
+                            $("#unit option[value='quyển']").removeAttr('disabled');
+                            $("#unit option[value='lô']").removeAttr('disabled');
+                        }
+                        else{
+                            $('#author').val("0");
+                            $('#publisher').val("0");
+                            $("#select2-publisher-container").text("");
+                            $("ul.select2-selection__rendered li:not(:last-child)").remove();
+                            $('#author').prop('disabled', true);
+                            $('#publisher').prop('disabled', true);
+                            $("#unit option[value='cái']").removeAttr('disabled');
+                            $("#unit option[value='hộp']").removeAttr('disabled');
+                            $("#unit option[value='quyển']").attr('disabled', true);
+                            $("#unit option[value='lô']").removeAttr('disabled');
+                        }
                     }
                     else if(obj.attr('name')=="group_genre")
                     {
                         var selectNext = $('#genre');
                         selectNext.empty();
-                        selectNext.append('<option value="0">Chọn Thể Loại</option>');
+                        selectNext.append('<option value="0" disabled>Chọn Thể Loại</option>');
                     }
 
                     for (var i = 0; i < data.length; i++) {

@@ -17,6 +17,7 @@ class CreateCustomerTypeTable extends Migration
             $table->increments('id');
             $table->string('type', 50);
             $table->string('note', 16000)->nullable();
+            $table->boolean('is_enable')->default(true);
             $table->timestamps();
         });
     }

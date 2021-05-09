@@ -107,8 +107,8 @@ class SupplierController extends Controller
     {
         //
         $supplier = Supplier::find($id);
-        $products = $supplier->product;
-        $imports = $supplier->import;
+        $products = $supplier->product()->whereRaw('`product`.`is_enable`=1');
+        $imports = $supplier->import()->whereRaw('`import`.`is_enable`=1');
         if($products->count() > 0)
         {
             return Redirect::to('/admin/nha-cung-cap/danh-sach')->with("error","Không thể xóa nhà cung cấp. Cần xóa các sản phẩm thuộc nhà cung cấp này");

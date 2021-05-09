@@ -206,6 +206,12 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $account = CusAccount::find($customer->account_id);
         $image = Image::find($customer->image_id);
+        $order = $customer->order()->whereRaw('`order`.`is_enable`=1');
+        if($order->count() > 0)
+        {
+            return Redirect::to('/admin/khach-hang/danh-sach')->with("error","Không thể xóa khách hàng. Cần xóa các đơn hàng có khách hàng này");
+        }
+        else{
         $customer->is_enable = 0;
         $account->is_enable = 0;
         $image->is_enable = 0;
@@ -213,6 +219,7 @@ class CustomerController extends Controller
         $account->save();
         $image->save();
         return Redirect::to('/admin/khach-hang/danh-sach')->with("success","Xóa khách hàng thành công");
+        }
     }
     public function validateElement(Request $request)
     {

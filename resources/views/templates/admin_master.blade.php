@@ -8,9 +8,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template">
+        content="Laravel Blade, Bootstrap 5">
     <meta name="description"
-        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+        content="BookStore Admin is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Wisdom Galaxy Bookstore Admin</title>
     <!-- Favicon icon -->
@@ -18,6 +18,7 @@
     <!-- Sweetalert -->
     <link rel="stylesheet" href="{{asset('node_modules/sweetalert2/dist/sweetalert2.min.css')}}">
     <script src="{{asset('node_modules/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <style>
         button.swal2-cancel.btn.btn-danger {
             margin-right: 10px;
@@ -125,9 +126,9 @@
                                     class="rounded-circle" width="31">
                                 <span style="font-size:1.5em; font-weight: bold; color:#f8f8f8;">
                                     <?php
-                                    $name = Session::get('admin_name');
-                                    if($name){
-                                        echo $name;
+                                    $admin = Session::get('admin');
+                                    if($admin){
+                                        echo $admin->name;
                                     }
                                 ?>
                                 </span>
@@ -200,6 +201,10 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                             href="{{URL::to('admin/nha-cung-cap/danh-sach')}}" aria-expanded="false"><i
                                 class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Nhà Cung Cấp</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="{{URL::to('admin/hoa-don/danh-sach')}}" aria-expanded="false"><i
+                                class="mdi mdi-receipt"></i><span class="hide-menu">Danh Mục Hóa Đơn</span></a>
                         </li>
                     </ul>
                 </nav>

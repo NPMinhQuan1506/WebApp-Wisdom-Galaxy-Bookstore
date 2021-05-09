@@ -32,8 +32,8 @@
                 Session::put('message', null);
              }
             ?>
-            <input type="text" name="admin_username" readonly onfocus="this.removeAttribute('readonly');" placeholder="Nhập Tài Khoản"><br>
-            <input type="password" name="admin_password" placeholder="Nhập Password"><br>
+            <input type="text" name="username" readonly onfocus="this.removeAttribute('readonly');" placeholder="Nhập Tài Khoản"><br>
+            <input type="password" name="password" placeholder="Nhập Password"><br>
             <div class="support">
                 <div class="remember">
                     <input type="checkbox" id="check" name="check" value="" />

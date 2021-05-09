@@ -24,6 +24,7 @@ class CreateProductTable extends Migration
             $table->integer('inventory_number')->usigned();
             $table->string('unit', 50);
             $table->integer('min_inventory_number')->usigned();
+            $table->string('note', 2000)->nullable();
             $table->unsignedDecimal('selling_price',$total = 25, $places = 2);
             $table->boolean('is_enable')->default(true);
             $table->timestamps();

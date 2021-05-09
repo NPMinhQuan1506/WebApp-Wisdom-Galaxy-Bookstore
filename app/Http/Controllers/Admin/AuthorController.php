@@ -103,13 +103,13 @@ class AuthorController extends Controller
     {
         //
         $author = Author::find($id);
-        $books = $author->product;
+        $books = $author->product()->whereRaw('`product_detail`.`is_enable`=1');
         if($books->count() > 0)
         {
             return Redirect::to('/admin/tac-gia/danh-sach')->with("error","Không thể xóa tác giả. Cần xóa các sách thuộc tác giả này");
         }
         else{
-            $author->delete();
+            $author->is_enable = 0;
             return Redirect::to('/admin/tac-gia/danh-sach')->with("success","Xóa tác giả thành công");
         }
 
