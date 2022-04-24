@@ -1,0 +1,504 @@
+
+@import url('https://fonts.googleapis.com/css?family=Muli:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Saira+Semi+Condensed");
+body {
+    background: linear-gradient(to right, rgb(246, 135, 7), #3958cb);
+}
+
+
+.logo{
+    font-family: "Saira Semi Condensed", sans-serif;
+}
+.main-container {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+}
+
+.first-container, .second-container {
+  cursor: pointer;
+  position: relative;
+}
+.first-container h1, .second-container h1 {
+  position: relative;
+  letter-spacing: 2px;
+  font-size: 2em;
+}
+
+.first-container {
+  margin-bottom: 15px;
+}
+
+.logo span {
+  display: inline-block;
+  position: relative;
+  margin-right: 5px;
+}
+.logo span:after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 0;
+  top: 0;
+  left: 0;
+  transition: 0.6s;
+  z-index: -5;
+}
+
+.share:hover > h1 > span:nth-child(1):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 100ms;
+  transform: rotate(-25deg);
+}
+
+.share:hover > h1 > span:nth-child(1) {
+  color: #00003b;
+  transition-delay: 110ms;
+}
+
+.share:hover > h1 > span:nth-child(2):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 200ms;
+  transform: rotate(-20deg);
+}
+
+.share:hover > h1 > span:nth-child(2) {
+    color: #00003b;
+  transition-delay: 220ms;
+}
+
+.share:hover > h1 > span:nth-child(3):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 300ms;
+  transform: rotate(-15deg);
+}
+
+.share:hover > h1 > span:nth-child(3) {
+    color: #00003b;
+  transition-delay: 330ms;
+}
+
+.share:hover > h1 > span:nth-child(4):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 400ms;
+  transform: rotate(-10deg);
+}
+
+.share:hover > h1 > span:nth-child(4) {
+    color: #00003b;
+  transition-delay: 440ms;
+}
+
+.share:hover > h1 > span:nth-child(5):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 500ms;
+  transform: rotate(-5deg);
+}
+
+.share:hover > h1 > span:nth-child(5) {
+    color: #00003b;
+  transition-delay: 550ms;
+}
+
+.share:hover > h1 > span:nth-child(6):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 600ms;
+  transform: rotate(0deg);
+}
+
+.share:hover > h1 > span:nth-child(6) {
+    color: #00003b;
+  transition-delay: 660ms;
+}
+
+.share:hover > h1 > span:nth-child(7):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 700ms;
+  transform: rotate(5deg);
+}
+
+.share:hover > h1 > span:nth-child(7) {
+    color: #00003b;
+  transition-delay: 770ms;
+}
+
+.share:hover > h1 > span:nth-child(8):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 800ms;
+  transform: rotate(10deg);
+}
+
+.share:hover > h1 > span:nth-child(8) {
+    color: #00003b;
+  transition-delay: 880ms;
+}
+
+.share:hover > h1 > span:nth-child(9):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 900ms;
+  transform: rotate(15deg);
+}
+
+.share:hover > h1 > span:nth-child(9) {
+    color: #00003b;
+  transition-delay: 990ms;
+}
+
+.share:hover > h1 > span:nth-child(10):after {
+  background: white;
+  width: 100%;
+  transition: 0.6s;
+  transition-delay: 1000ms;
+  transform: rotate(20deg);
+}
+
+.share:hover > h1 > span:nth-child(10) {
+    color: #00003b;
+  transition-delay: 1100ms;
+}
+.share:hover > h1 > span:nth-child(11):after {
+    background: white;
+    width: 100%;
+    transition: 0.6s;
+    transition-delay: 1200ms;
+    transform: rotate(20deg);
+  }
+
+  .share:hover > h1 > span:nth-child(11) {
+    color: #00003b;
+    transition-delay: 1210ms;
+  }
+  .share:hover > h1 > span:nth-child(12):after {
+    background: white;
+    width: 100%;
+    transition: 0.6s;
+    transition-delay: 1300ms;
+    transform: rotate(20deg);
+  }
+
+  .share:hover > h1 > span:nth-child(12) {
+    color: #00003b;
+    transition-delay: 1320ms;
+  }
+
+
+.container {
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 3em;
+    height: 320px;
+    border-radius: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+form p {
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 500;
+    color: #00003b;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 60px;
+}
+form a {
+    margin-top: 1px;
+    margin-left: 100px;
+    text-decoration: none;
+    color: #f8f8f8;
+    font-size: 0.9em;
+}
+form a:hover {
+    color: #00003b;
+}
+form a:active {
+    font-size: 0.9em;
+    text-shadow: none;
+}
+
+form input {
+    font-size: 1em;
+    /* padding: 1em; */
+    width: 300px;
+    padding-left: 1em;
+    height: 45px;
+    margin-bottom: 2em;
+    border: none;
+    background: #f8f8f8be;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5000px;
+    box-shadow: 4px 4px 60px rgba(0, 0, 0, 0.2);
+    color: #00003b;
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 500;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+form input:hover {
+    background: #a7a7e0;
+    box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    font-size: 1em  ;
+    background: #a7a7e0;
+    box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+
+form input[type="submit"] {
+    font-family: "Noto Sans", sans-serif;
+    padding: 1em;
+    padding-top: 0.8em;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    width: 150px;
+    font-size: 1rem;
+    opacity: 0.8;
+    color: #00003b;
+    font-weight: 500;
+}
+
+form input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+form input[type="submit"]:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+form:hover {
+    margin: 4px;
+}
+
+::-webkit-input-placeholder {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #00003b9f;
+}
+
+::-moz-placeholder {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #00003b9f;
+}
+
+:-ms-input-placeholder {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #00003b9f;
+}
+
+::-ms-input-placeholder {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #00003b9f;
+}
+
+::placeholder {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #00003b9f;
+}
+
+.drop {
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 10px 10px 60px -8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.drop-1 {
+    height: 80px;
+    width: 80px;
+    top: -20px;
+    left: -40px;
+    z-index: -1;
+}
+
+.drop-2 {
+    height: 80px;
+    width: 80px;
+    bottom: -30px;
+    right: -10px;
+}
+
+.drop-3 {
+    height: 100px;
+    width: 100px;
+    bottom: 120px;
+    right: -50px;
+    z-index: -1;
+}
+
+.drop-4 {
+    height: 120px;
+    width: 120px;
+    top: -60px;
+    right: -60px;
+}
+
+.drop-5 {
+    height: 60px;
+    width: 60px;
+    bottom: 170px;
+    left: 90px;
+    z-index: -1;
+}
+
+a,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+
+
+
+.support{
+    display: flex;
+    justify-content: left;
+}
+  label {
+    display: inline-block;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    font-size: 0.9em;
+  }
+  label span {
+    display: inline-block;
+    position: relative;
+    background-color: transparent;
+    width: 15px;
+    height: 15px;
+    transform-origin: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    vertical-align: -6px;
+    margin-right: 10px;
+    transition: background-color 150ms 200ms, transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
+  }
+  label span:before {
+    content: "";
+    width: 0px;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+    position: absolute;
+    transform: rotate(45deg);
+    top: 8px;
+    left: 4px;
+    transition: width 50ms ease 50ms;
+    transform-origin: 0% 0%;
+  }
+  label span:after {
+    content: "";
+    width: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+    position: absolute;
+    transform: rotate(305deg);
+    top: 11px;
+    left: 5px;
+    transition: width 50ms ease;
+    transform-origin: 0% 0%;
+  }
+  label:hover span:before {
+    width: 5px;
+    transition: width 100ms ease;
+  }
+  label:hover span:after {
+    width: 10px;
+    transition: width 150ms ease 100ms;
+  }
+
+  input[type=checkbox] {
+    display: none;
+  }
+  input[type=checkbox]:checked + label span {
+    background-color: #fff;
+    transform: scale(1.25);
+  }
+  input[type=checkbox]:checked + label span:after {
+    width: 10px;
+    background: #1790b5;
+    transition: width 150ms ease 100ms;
+  }
+  input[type=checkbox]:checked + label span:before {
+    width: 5px;
+    background: #1790b5;
+    transition: width 150ms ease 100ms;
+  }
+  input[type=checkbox]:checked + label:hover span {
+    background-color: #fff;
+    transform: scale(1.25);
+  }
+  input[type=checkbox]:checked + label:hover span:after {
+    width: 10px;
+    background: #1790b5;
+    transition: width 150ms ease 100ms;
+  }
+  input[type=checkbox]:checked + label:hover span:before {
+    width: 5px;
+    background: #1790b5;
+    transition: width 150ms ease 100ms;
+  }
+
+  .error-login {
+    font-size: 0.9em;
+    color: #bf0101;
+    font-family: "Noto Sans", sans-serif;
+    margin-top: -50px;
+    text-shadow: none;
+    font-weight: 400;
+}
